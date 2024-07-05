@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, Pressable  } from "react-native";
-import{Image} from "expo-image"
+
 import React, { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,7 +15,7 @@ const Healthdrinks = () => {
   const [active, setActive] = useState("foods")
   return (
     <View style={[style.container, { paddingTop: paddingTop }]}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <View style={style.top}>
             <View>

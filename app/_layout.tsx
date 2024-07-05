@@ -19,7 +19,26 @@ const _layout = () => {
         }}
       />
       <Stack.Screen
+        name="calc"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+        
+      />
+      <Stack.Screen
+        name="excercise"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="recipepage"
         options={{
           headerShown: false,
         }}

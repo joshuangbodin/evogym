@@ -1,7 +1,7 @@
 import { View, Text, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { options } from "@/api/api";
+
 
 const welcome = () => {
   const [exercises, setExcercises] = useState<any[]>([]);

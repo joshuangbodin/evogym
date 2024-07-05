@@ -15,6 +15,7 @@ import {
 //color providers
 import { pink, randcol, text } from "@/constants/colors";
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from "react-native-reanimated";
+import { useRouter } from "expo-router";
 //db
 
 
@@ -78,7 +79,7 @@ const ProgressCard = ({ title, exerciseremaining, percentage }: progProps) => {
       ) : (
         <CircularProgress
           activeStrokeColor={pink(3, 1)}
-          value={10}
+          value={0}
           radius={30}
           inActiveStrokeColor="#323232"
         />
@@ -90,7 +91,7 @@ const ProgressCard = ({ title, exerciseremaining, percentage }: progProps) => {
 //calory count
 const CaloryCount = ({ calories }: CaProps) => {
   return (
-    <Animated.View entering={FadeInLeft} style={style.calorybar}>
+    <Animated.View  style={style.calorybar}>
       <View style={style.iconcont}>
         <FontAwesome5 name="fire" color={"white"} size={25} />
       </View>
@@ -106,7 +107,7 @@ const CaloryCount = ({ calories }: CaProps) => {
 
 //excerciselist
 const ExcerciseList = () => {
-  return <Animated.View entering={FadeInRight} style={style.excercisecont}>
+  return <Animated.View  style={style.excercisecont}>
     <ScrollView contentContainerStyle={{}} showsVerticalScrollIndicator={false}>
     <ExcerciseItem/>
     <ExcerciseItem/>
@@ -164,6 +165,7 @@ const CalcCard = ({ title,description , iconname }: calcProps) => {
 
 const home = () => {
   const { top } = useSafeAreaInsets();
+  const router = useRouter()
   const paddingTop = top !== 0 ? top + 10 : top + 30;
   return (
     <View style={[style.container, { paddingTop: paddingTop , gap:10 }]}>
@@ -208,8 +210,12 @@ const home = () => {
           <Text style={style.topic}>Body Health Calculations  </Text>
           </View>
           <View style={style.calccontainer}>
-          <Pressable><CalcCard  title="Body Mass Index (BMI)" description="calculate your Body Mass Index, and Determine if your BMI is Normal " /></Pressable>
-          <Pressable><CalcCard iconname={"dumbbell"}  title="Ideal Body Weight" description="calculate your Body Mass Index, and Determine if"   /></Pressable>
+          <Pressable onPress={()=>{
+            router.push({pathname:'calc' , params:{name:"bmi"}})
+          }}><CalcCard  title="Body Mass Index (BMI)" description="calculate your Body Mass Index, and Determine if your BMI is Normal " /></Pressable>
+          <Pressable onPress={()=>{
+            router.push({pathname:'calc' , params:{name:"ibw"}})
+          }}><CalcCard iconname={"dumbbell"}  title="Ideal Body Weight" description="calculate your Body Mass Index, and Determine if"   /></Pressable>
           </View>
         
       </View>

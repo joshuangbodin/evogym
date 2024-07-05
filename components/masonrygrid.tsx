@@ -68,7 +68,7 @@ const MasonryGrid = ({ category }: Props) => {
           data={category == "foods" ? data : drink}
           renderItem={(item ) => (
             <ImageCard
-            index={item.index}
+              index={item.index}
               source={item.item.data}
               height={item.item.height}
               title={item.item.title}
@@ -86,7 +86,7 @@ const ImageCard = ({ title, height, source,index }: imgcard) => {
   return (
     <Animated.View 
     entering={
-        FadeInDown
+        FadeInDown.duration(200*(index+1)).delay(1000)
     }
       style={[
         {
@@ -103,6 +103,7 @@ const ImageCard = ({ title, height, source,index }: imgcard) => {
     >
       <Image
         source={source}
+        transition={10}
         style={{ 
             width: "100%", 
             objectFit: "cover", 

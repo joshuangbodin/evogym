@@ -1,16 +1,14 @@
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import React from "react";
 import {
-  FontAwesome5,
   Ionicons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { pink, randcol, text } from "@/constants/colors";
+import { pink, text } from "@/constants/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView } from "react-native";
-import { getExcercises } from "@/api/api";
 import { useRouter } from "expo-router";
-import Animated, { FadeInDown, FadeInLeft, FadeInRight } from "react-native-reanimated";
+import Animated, { FadeInRight } from "react-native-reanimated";
 
 
 //Exercise Card
@@ -20,7 +18,8 @@ interface excerciseProps {
   noOfExcercise: number;
   rating?: number;
   image: any;
-  color?:string
+  color?:string;
+  index:number;
 }
 
 
@@ -59,11 +58,11 @@ const Discover = () => {
           <Text style={style.topic}>Our Collection </Text>
           
         </View>
-        <Animated.View entering={FadeInDown.duration(600).springify()}>
-        <ScrollView  contentContainerStyle={{gap:10, paddingTop:20}}>
-          <ExcerciseCard2 image={require("../../assets/images/hand.png")} name1="Hand & Shoulder" name2="excercises" noOfExcercise={12}   color="skyblue" />
-          <ExcerciseCard2 image={require("../../assets/images/back.png")} name1="Hand & Shoulder" name2="excercises" noOfExcercise={12} color={pink(3,1)} />
-        </ScrollView></Animated.View>
+        
+        <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={{gap:10, paddingTop:20}}>
+          <ExcerciseCard2 index={1} image={require("../../assets/images/hand.png")} name1="Hand & Shoulder" name2="excercises" noOfExcercise={12}   color="skyblue" />
+          <ExcerciseCard2 index={2} image={require("../../assets/images/back.png")} name1="Hand & Shoulder" name2="excercises" noOfExcercise={12} color={pink(3,1)} />
+        </ScrollView>
       </View>
       </ScrollView>
     </View>
@@ -73,9 +72,10 @@ const Discover = () => {
 //excercise List
 const ExcerciseList = () => {
   return (
-    <Animated.View entering={FadeInRight}>
+    
     <ScrollView horizontal contentContainerStyle={{gap:10, paddingVertical:20}} showsHorizontalScrollIndicator={false}>
       <ExcerciseCard
+      index={1}
         image={require("../../assets/images/home Workout.png")}
         name1="Home"
         name2="Workout"
@@ -84,6 +84,7 @@ const ExcerciseList = () => {
         rating={4.5}
       />
        <ExcerciseCard
+       index={2}
         image={require("../../assets/images/chest.png")}
         name1="Chest"
         name2="Excercise"
@@ -91,6 +92,7 @@ const ExcerciseList = () => {
         rating={4.5}
       />
       <ExcerciseCard
+      index={3}
         image={require("../../assets/images/back.png")}
         name1="Back"
         name2="Excercise"
@@ -98,7 +100,7 @@ const ExcerciseList = () => {
         noOfExcercise={12}
         rating={4.5}
       />
-    </ScrollView></Animated.View>
+    </ScrollView>
   );
 };
 
@@ -109,10 +111,12 @@ const ExcerciseCard = ({
   noOfExcercise,
   rating,
   image,
-  color
+  color,
+  index
 }: excerciseProps) => {
   const router = useRouter()
   return (
+    <Animated.View entering={FadeInRight.duration((index+1)*200).delay(500).damping(14).springify()}>
     <Pressable onPress={() =>{router.push('excercise')}}>
     <View style={[style.excerciseCard, {backgroundColor:color? color : "darkred"}]}>
       <View style={style.excerciseLeft}>
@@ -132,7 +136,7 @@ const ExcerciseCard = ({
       </View>
       <Image style={style.excerciseImage} source={image}></Image>
     </View>
-    </Pressable>
+    </Pressable></Animated.View>
   );
 };
 
