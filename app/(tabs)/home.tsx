@@ -1,237 +1,140 @@
 //imports -------------------------------------------------------------------
 //component import
-import { View, Text, StyleSheet, Image, Pressable , ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ScrollView,
+} from "react-native";
 //safe area hooks
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 //circular progress bar
-import CircularProgress from "react-native-circular-progress-indicator";
+
 //icon providers
-import {
-  Feather,
-  FontAwesome5,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 //color providers
-import { pink, randcol, text } from "@/constants/colors";
-import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from "react-native-reanimated";
+import { pink, text } from "@/constants/colors";
+
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
+import ProgressCard from "@/components/progresscard";
+import ExcerciseList from "@/components/excercise";
+import CaloryCount from "@/components/calorycount";
+import CalcCard from "@/components/Calcards";
+import { getImgByName } from "@/data/avatars";
 //db
-
-
-
-
-
-
-//database manipulation
-
-
-
-
-
-
-
-
-//props-----------------------------------------------------------------------
-//progress card props
-interface progProps {
-  title?: string;
-  exerciseremaining?: number;
-  percentage?: number;
-}
-
-//calory bar props
-interface CaProps {
-  calories: number;
-}
-//excercisebar props
-//bodycalcProps
-interface calcProps {
-  title: string;
-  description: string;
-  iconname?: any;
-}
-
-
-
-
-
-
-
-
-//child components------------------------------------------------------------------
-
-//progress card
-const ProgressCard = ({ title, exerciseremaining, percentage }: progProps) => {
-  return (
-    <Animated.View entering={FadeInUp} style={style.pcard}>
-      <View style={style.info}>
-        <Text style={style.ptitle}>{title}</Text>
-        <Text style={style.exercise}>{exerciseremaining} Excercise left</Text>
-      </View>
-      {percentage ? (
-        <CircularProgress
-          activeStrokeColor={pink(3, 1)}
-          value={percentage}
-          radius={30}
-          inActiveStrokeColor="#323232"
-        />
-      ) : (
-        <CircularProgress
-          activeStrokeColor={pink(3, 1)}
-          value={0}
-          radius={30}
-          inActiveStrokeColor="#323232"
-        />
-      )}
-    </Animated.View>
-  );
-};
-
-//calory count
-const CaloryCount = ({ calories }: CaProps) => {
-  return (
-    <Animated.View  style={style.calorybar}>
-      <View style={style.iconcont}>
-        <FontAwesome5 name="fire" color={"white"} size={25} />
-      </View>
-      <View >
-        <Text style={style.calorytext}>{calories}</Text>
-        <Text style={style.calorylabel}>Calories</Text>
-      </View>
-      <Image style={{position:"absolute" , bottom:-10 , zIndex:-12}} source={require("../../assets/images/Sparkles.png")}></Image>
-      <View style={style.design}></View>
-    </Animated.View>
-  );
-};
-
-//excerciselist
-const ExcerciseList = () => {
-  return <Animated.View  style={style.excercisecont}>
-    <ScrollView contentContainerStyle={{}} showsVerticalScrollIndicator={false}>
-    <ExcerciseItem/>
-    <ExcerciseItem/>
-    <ExcerciseItem/>
-    <ExcerciseItem/>
-    <ExcerciseItem/>
-    </ScrollView>
-  </Animated.View>;
-};
-
-//exerxiseitem
-const ExcerciseItem = () => {
-  return (
-    <View style={style.excerciseitem}>
-      <View>
-        <View style={[style.bullet , {backgroundColor: randcol()}]} ></View>
-      </View>
-      <View style={{flex:1 , paddingHorizontal:10 }}>
-        <Text style={style.excercisename} >Push-ups</Text>
-        <Text style={style.excecisebody}>Shoulders</Text>
-      </View>
-      <View style={style.excercisenum}>
-        <Text style={style.excercisename}>12</Text>
-        <Text style={style.excecisebody}>x3</Text>
-      </View>
-    </View>
-  );
-};
-
-
-//Body Calc
-const CalcCard = ({ title,description , iconname }: calcProps) => {
-  return (
-    <Animated.View entering={FadeInDown} style={style.calccard}>
-      <View style={[style.iconcont2, {backgroundColor:randcol()}]}>
-        <MaterialCommunityIcons name={iconname? iconname : "weight-lifter"} size={20} color={"#fff"} />
-      </View>
-      <View style={{flex:1 , paddingHorizontal:10 }}>
-        <Text style={style.excercisename}>{title}</Text>
-        <Text style={style.excecisebody}>{description?.length>35? description?.slice(0,34)+"...": description}</Text>
-      </View>
-      <Pressable style={{justifyContent:'center' , alignItems:"center"}}>
-        <Feather name="chevron-right" size={25}> </Feather>
-      </Pressable>
-  
-    </Animated.View>
-  );
-};
-
-
-//Main Screen component ---------------------------------------------------
-
-
-
 
 const home = () => {
   const { top } = useSafeAreaInsets();
-  const router = useRouter()
+  const router = useRouter();
   const paddingTop = top !== 0 ? top + 10 : top + 30;
+  var name3;
+
+  //user info
+  const [name1, setName1] = useState<string>("user");
+  const [avatar, setAvatar] = useState<string>("white");
+
+
+  useEffect(() => {
+    AsyncStorage.getItem("user-name")
+      .then((value) => {
+        if (value !== null) {
+          name3 = value;
+          setName1(name3);
+        }
+      })
+      .catch((err) => console.log(err));
+      AsyncStorage.getItem("user-avatar")
+      .then((value) => {
+        if (value !== null) {
+          name3 = value;
+          setAvatar(name3);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
-    <View style={[style.container, { paddingTop: paddingTop , gap:10 }]}>
+    <View style={[style.container, { paddingTop: paddingTop, gap: 10 }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={style.top}>
-        <View>
-          <Image
-            style={style.logo}
-            source={require("../../assets/images/Logo.png")}
-          ></Image>
-          <Text style={style.motto}>LifeStyle | Health | Wellbeing</Text>
-        </View>
-        <Pressable style={style.settings}>
-          <Ionicons name="settings-outline"  size={25} />
-        </Pressable>
-      </View>
-      <View>
-        <ProgressCard
-          title="Workout Progress"
-          exerciseremaining={12}
-          percentage={65}
-        ></ProgressCard>
-      </View>
-      <View>
-        <View style={[style.top, { marginTop: 25 }]}>
-          <Text style={style.topic}>Today's Activity </Text>
-          <Pressable>
-            <MaterialCommunityIcons
-              name="pencil-plus-outline"
-              color={"gray"}
-              size={22}
-            />
+        <View style={style.top}>
+          <View style={style.profile}>
+          <Image  style={style.profileimg} source={getImgByName(avatar)}></Image>
+          <View>
+            <Text style={style.greeting}>Welcome Back</Text>
+            <Text style={style.motto}>{name1}!<FontAwesome size={15} color={'red'} style={{fontWeight:'bold' , paddingLeft:5}} name='hand-peace-o'/></Text>
+          </View></View>
+          <Pressable onPress={()=> router.push('setting')} style={style.settings}>
+            <Ionicons name="settings-outline" size={25} />
           </Pressable>
         </View>
-        <View style={style.activitycont}>
-          <CaloryCount calories={348}></CaloryCount>
-          <ExcerciseList></ExcerciseList>
+        <View>
+          <ProgressCard
+            title="Workout Progress"
+            exerciseremaining={12}
+            percentage={65}
+          ></ProgressCard>
         </View>
-      </View>
-      <View>
-        <View style={[style.top, { marginTop: 35 }]}>
-          <Text style={style.topic}>Body Health Calculations  </Text>
+        <View>
+          <View style={[style.top, { marginTop: 25 }]}>
+            <Text style={style.topic}>Today's Activity </Text>
+            <Pressable>
+              <MaterialCommunityIcons
+                name="pencil-plus-outline"
+                color={"gray"}
+                size={22}
+              />
+            </Pressable>
+          </View>
+          <View style={style.activitycont}>
+            <CaloryCount calories={348}></CaloryCount>
+            <ExcerciseList></ExcerciseList>
+          </View>
+        </View>
+        <View>
+          <View style={[style.top, { marginTop: 35 }]}>
+            <Text style={style.topic}>Body Health Calculations </Text>
           </View>
           <View style={style.calccontainer}>
-          <Pressable onPress={()=>{
-            router.push({pathname:'calc' , params:{name:"bmi"}})
-          }}><CalcCard  title="Body Mass Index (BMI)" description="calculate your Body Mass Index, and Determine if your BMI is Normal " /></Pressable>
-          <Pressable onPress={()=>{
-            router.push({pathname:'calc' , params:{name:"ibw"}})
-          }}><CalcCard iconname={"dumbbell"}  title="Ideal Body Weight" description="calculate your Body Mass Index, and Determine if"   /></Pressable>
+            <Pressable
+              onPress={() => {
+                router.push({ pathname: "calc", params: { name: "bmi" } });
+              }}
+            >
+              <CalcCard
+                title="Body Mass Index (BMI)"
+                description="calculate your Body Mass Index, and Determine if your BMI is Normal "
+              />
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                router.push({ pathname: "calc", params: { name: "ibw" } });
+              }}
+            >
+              <CalcCard
+                iconname={"dumbbell"}
+                title="Ideal Body Weight"
+                description="calculate your Body Mass Index, and Determine if"
+              />
+            </Pressable>
           </View>
-        
-      </View>
+        </View>
       </ScrollView>
     </View>
   );
 };
 
 //styles
-const style = StyleSheet.create({
+export const style = StyleSheet.create({
   container: {
     padding: 15,
     width: "100%",
     height: "100%",
-    flex:1,
-    backgroundColor:text.white,
+    flex: 1,
+    backgroundColor: text.white,
   },
   top: {
     flexDirection: "row",
@@ -239,6 +142,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingBottom: 10,
+    marginBottom:5,
   },
   logo: {
     height: 20,
@@ -247,8 +151,27 @@ const style = StyleSheet.create({
     marginBottom: 5,
   },
   motto: {
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: "bold",
+    justifyContent:"center",
+    alignItems:'center'
+  },
+  profile:{
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    gap:5
+  },
+  profileimg:{
+    height:40,
+    width:40,
+    backgroundColor:'gray',
+    borderRadius:100,
+  }
+  ,
+  greeting:{
+    color:'gray',
+    fontSize:12
   },
   settings: {},
   //progress card1
@@ -256,7 +179,7 @@ const style = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    maxHeight:200,
+    maxHeight: 200,
     backgroundColor: "black",
     marginTop: 20,
     alignItems: "center",
@@ -270,14 +193,13 @@ const style = StyleSheet.create({
     paddingVertical: 4,
   },
   ptitle: {
-    color:  text.white1,
+    color: text.white1,
     fontSize: 16,
   },
   //todays activities
   topic: {
     fontSize: 18,
     fontWeight: "bold",
-   
   },
   //calory bar
   calorybar: {
@@ -290,7 +212,7 @@ const style = StyleSheet.create({
     borderRadius: 20,
     borderCurve: "continuous",
     gap: 10,
-    position:"relative"
+    position: "relative",
   },
   iconcont: {
     width: "95%",
@@ -309,7 +231,7 @@ const style = StyleSheet.create({
   },
   calorylabel: {
     fontSize: 10,
-    fontWeight:"bold",
+    fontWeight: "bold",
     color: "white",
     textAlign: "center",
     padding: 5,
@@ -318,72 +240,67 @@ const style = StyleSheet.create({
     width: "100%",
   },
   activitycont: {
-    flexDirection:"row",
-    
+    flexDirection: "row",
   },
 
   //excerciseitem
-excercisecont:{
-    flex:1,
+  excercisecont: {
+    flex: 1,
     backgroundColor: text.white1,
-    marginHorizontal:10,
+    marginHorizontal: 10,
     borderRadius: 20,
-    height:200,
-
-},
-  excerciseitem:{
-    flexDirection:"row",
-    width:"100%",
-    height:"30%",
-    justifyContent:"space-between",
-    paddingHorizontal:20,
-    paddingVertical:5,
-    alignItems:"center"
+    height: 200,
   },
-  bullet:{
-    
-    width:5,
+  excerciseitem: {
+    flexDirection: "row",
+    width: "100%",
+    height: "30%",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    alignItems: "center",
+  },
+  bullet: {
+    width: 5,
     marginTop: 5,
-    height:12,
+    height: 12,
     borderRadius: 4,
   },
-  excercisenum:{
-    flexDirection:"row",
-    gap:2,
+  excercisenum: {
+    flexDirection: "row",
+    gap: 2,
   },
-  excercisename:{
-    fontWeight:"bold",
-    fontSize:17
+  excercisename: {
+    fontWeight: "bold",
+    fontSize: 17,
   },
-  excecisebody:{
-  color:"gray",
-  fontSize:12,
+  excecisebody: {
+    color: "gray",
+    fontSize: 12,
   },
 
   //calccard
-  calccontainer:{
-    backgroundColor:"#fff",
-    padding:8,
-    marginVertical:4,
+  calccontainer: {
+    backgroundColor: "#fff",
+    padding: 8,
+    marginVertical: 4,
     borderRadius: 20,
-    gap:5,
+    gap: 5,
   },
-  calccard:{
-    flexDirection:"row",
+  calccard: {
+    flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical:10,
+    paddingVertical: 10,
   },
-  iconcont2:{
-    width:'10%',
-    height:40,
-    alignSelf:'center',
-    justifyContent:"center",
-    alignItems:"center",
-    padding:2,
+  iconcont2: {
+    width: "10%",
+    height: 40,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 2,
     borderRadius: 4,
-  }
-
-
+  },
 });
 
 export default home;

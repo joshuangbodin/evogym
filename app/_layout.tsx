@@ -43,7 +43,26 @@ const _layout = () => {
           headerShown: false,
         }}
       />
+       <Stack.Screen
+        name="login"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="setting"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="edit"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
+    
   );
 };
 

@@ -7,7 +7,7 @@ import {
 import { pink, text } from "@/constants/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView } from "react-native";
-import { useRouter } from "expo-router";
+import { router, useRouter } from "expo-router";
 import Animated, { FadeInRight } from "react-native-reanimated";
 
 
@@ -35,7 +35,7 @@ const Discover = () => {
         <View>
           <Text style={style.header}>Discover</Text>
         </View>
-        <Pressable>
+        <Pressable onPress={()=> router.push('setting')}>
           <Ionicons name="settings-outline" size={25} />
         </Pressable>
       </View>

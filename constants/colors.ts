@@ -25,17 +25,17 @@ export const randcol =()=>{
     if (randint == 0)
         color = pink(3,1)
     else if (randint == 1)
-        color = "green"
+        color = `rgba(243, 73, 98 , 1)`
      else if (randint == 2)
-        color = "purple"
+        color = `rgba(233, 73, 98 , 1)`
      else if (randint == 3)
-        color = "gray"
+        color = `rgba(243, 83, 98 , 1)`
      else if (randint == 4)
-        color = "darkred"
+        color = `rgba(253, 73, 98 , 1)`
      else if (randint == 5)
-        color = "orange"
+        color = `rgba(243, 73, 68 , 1)`
     else 
-        color = "blue"
+        color = `rgba(223, 73, 98 , 1)`
 
 
     return color

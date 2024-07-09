@@ -74,7 +74,7 @@ const Index = () => {
             <View style={[style.button,{backgroundColor: active==2?"darkred":"white"}]}></View>
             <View style={[style.button,{backgroundColor: active==3?"darkred":"white"}]}></View>
           </View>
-          <Pressable style={[style.arrow,{width: active==3?100:50}]} onPress={()=>{active<3 ?setActive(active+1): router.push("(tabs)/home")} }>
+          <Pressable style={[style.arrow,{width: active==3?100:50}]} onPress={()=>{active<3 ?setActive(active+1): router.push("login")} }>
             {
             active!==3 ?<FontAwesome size={20} color={"darkred"} name="arrow-right" />:  <Text style={style.motto}>Start</Text>
             

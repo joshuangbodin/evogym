@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { pink, text } from "@/constants/colors";
 import MasonryGrid from "@/components/masonrygrid";
+import { router } from "expo-router";
 
 const Healthdrinks = () => {
   const { top } = useSafeAreaInsets();
@@ -24,7 +25,7 @@ const Healthdrinks = () => {
                 Drinks{" "}
               </Text>
             </View>
-            <Pressable>
+            <Pressable onPress={()=> router.push('setting')}>
               <Ionicons name="settings-outline" size={25} />
             </Pressable>
           </View>
