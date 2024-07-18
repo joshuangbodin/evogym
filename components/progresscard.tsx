@@ -10,7 +10,8 @@ import CircularProgress from "react-native-circular-progress-indicator";
 //color providers
 import { pink } from "@/constants/colors";
 import Animated, {  FadeInUp } from "react-native-reanimated";
-import { style } from "@/app/(tabs)/home";
+import { style } from "./style";
+
 
 //db
 

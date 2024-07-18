@@ -4,7 +4,8 @@ import { randcol } from "@/constants/colors";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 import { View, Text, Pressable } from "react-native";
-import { style } from "@/app/(tabs)/home";
+import { style } from "./style";
+
 
 interface calcProps {
   title: string;

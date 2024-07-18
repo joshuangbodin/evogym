@@ -1,7 +1,8 @@
-import { style } from "@/app/(tabs)/home";
+
 import { FontAwesome5 } from "@expo/vector-icons";
 import { View ,Text , Image } from "react-native";
 import Animated from "react-native-reanimated";
+import { style } from "./style";
 
 
 interface CaProps {

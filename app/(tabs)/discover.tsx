@@ -172,7 +172,7 @@ const ExcerciseCard2 = ({
 };
 const style = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     width: "100%",
     height: "100%",
     flex: 1,

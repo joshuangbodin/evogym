@@ -44,7 +44,7 @@ const Calc = () => {
           source={require("../assets/images/bmi.png")}
         />
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.gender}>
           <Pressable
             onPress={() => {
@@ -122,7 +122,7 @@ const style = StyleSheet.create({
     height: "100%",
     flex: 1,
     backgroundColor: text.white,
-    padding: 15,
+    padding: 10,
   },
   topdesign: {
     flexDirection: "column-reverse",

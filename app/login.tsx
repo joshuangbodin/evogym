@@ -56,7 +56,8 @@ const Login = () => {
       Storage.storeAge(age);
       Storage.storeWeight(weight);
       Storage.storeHeight(height);
-
+      Storage.storeAvatar(avatar)
+      
       var name3;
       AsyncStorage.getItem("user-name")
         .then((res) => {
@@ -132,6 +133,7 @@ const Login = () => {
           <TextInput
             style={[style.input, { width: "50%" }]}
             value={age}
+            keyboardType="numeric"
             onChangeText={setAge}
             placeholder="Age"
           ></TextInput>
@@ -139,12 +141,14 @@ const Login = () => {
         <TextInput
           style={style.input}
           value={weight}
+          keyboardType="numeric"
           onChangeText={setWeight}
           placeholder="Weight"
         ></TextInput>
         <TextInput
           style={style.input}
           value={height}
+          keyboardType="numeric"
           onChangeText={setHeight}
           placeholder="Height"
         ></TextInput>

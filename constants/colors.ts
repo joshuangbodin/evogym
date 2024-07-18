@@ -5,16 +5,19 @@ export const text ={
     simpletext : "rgb(58, 20, 26)"
 }
 
-export function pink(strength:1|2|3 , opacity?:number) {
+export function pink(strength:1|2|3|4 , opacity?:number) {
     var color = "pink"
-    if(strength === 3){
-        color = `rgba(243, 73, 98 , ${opacity})`
+    if(strength === 4){
+        color = `#db4b61`
+    }
+    else if(strength === 3){
+        color = `rgba(243, 83, 108 , ${opacity})`
     }
     else if(strength === 2){
-        color = `rgba(255, 192, 203,${opacity})`
+        color = `#f9a9b6`
     }
     else{
-        color = `rgba(252, 209, 216,${opacity})`
+        color = `#fbcbd3`
     }
     return color
 }

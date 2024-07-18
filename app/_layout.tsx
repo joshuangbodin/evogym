@@ -8,7 +8,11 @@ const _layout = () => {
     
     <Stack
       screenOptions={{
-        statusBarColor: pink(3, 1),
+        statusBarColor: "rgba(10,10,10,1)",
+        statusBarStyle:'inverted',
+       
+       
+        
       }}
     >
       
@@ -41,6 +45,7 @@ const _layout = () => {
         name="recipepage"
         options={{
           headerShown: false,
+          customAnimationOnGesture:true
         }}
       />
        <Stack.Screen
@@ -59,6 +64,13 @@ const _layout = () => {
         name="edit"
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="profile"
+        options={{
+          headerShown: false,
+          statusBarStyle:'dark'
         }}
       />
     </Stack>

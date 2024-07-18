@@ -1,19 +1,42 @@
-import { View, Text, StyleSheet, ScrollView, Pressable  } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable, ActivityIndicator  } from "react-native";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { pink, text } from "@/constants/colors";
 import MasonryGrid from "@/components/masonrygrid";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import {  response } from "@/data/recipe";
 
 const Healthdrinks = () => {
   const { top } = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : top + 30;
 
+  const [recipes, setRecipes] = useState<response>();
+
+  //error
+  const [error , setError] = useState(false)
 
   //active
   const [active, setActive] = useState("foods")
+  useEffect(() => {
+    AsyncStorage.getItem("recipes").then((res) => {
+      if (typeof res == "string") {
+        var data = JSON.parse(res)
+        
+        setRecipes(data)
+      } else {
+        axios
+          .get("https://www.themealdb.com/api/json/v1/1/search.php?s=Salad")
+          .then((res: any) => AsyncStorage.setItem("recipes", JSON.stringify(res)))
+          .catch((err: any) => setError(true) );
+      }
+    });
+  },[]);
+
+
   return (
     <View style={[style.container, { paddingTop: paddingTop }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -50,7 +73,7 @@ const Healthdrinks = () => {
               </Pressable>
             </View>
             <View>
-              <MasonryGrid category={active}/>
+              {recipes?<MasonryGrid meals={recipes.data.meals} category={active}/>:error?<Text>We need Internet Connection atleast Once to initialize recipes For You.</Text>:<ActivityIndicator color={pink(3,1)}/>}
             </View>
           </View>
         </View>
@@ -61,7 +84,7 @@ const Healthdrinks = () => {
 
 const style = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     width: "100%",
     height: "100%",
     flex: 1,

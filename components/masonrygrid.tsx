@@ -1,9 +1,10 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Pressable } from "react-native";
 import React from "react";
 import { Image } from "expo-image";
 import { randcol } from "@/constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { router } from "expo-router";
 
 interface imgcard {
   title?: string;
@@ -11,13 +12,15 @@ interface imgcard {
   height?: number;
   color?: string;
   index:number,
+  param:string,
 }
 
 interface Props {
   category: string;
+  meals: any[]
 }
 
-const MasonryGrid = ({ category }: Props) => {
+const MasonryGrid = ({ category ,meals }: Props) => {
   let data = [
     {
       data: require("../assets/images/food1.png"),
@@ -65,13 +68,14 @@ const MasonryGrid = ({ category }: Props) => {
       <View style={{ width: "100%" }}>
         <FlatList
           ItemSeparatorComponent={() => <View style={{ height: 20 }}></View>}
-          data={category == "foods" ? data : drink}
+          data={category == "foods" ? meals : drink}
           renderItem={(item ) => (
             <ImageCard
               index={item.index}
-              source={item.item.data}
-              height={item.item.height}
-              title={item.item.title}
+              param={item.item.idMeal}
+              source={item.item.strMealThumb}
+              height={200}
+              title={item.item.strMeal}
             />
           )}
         />
@@ -82,8 +86,13 @@ const MasonryGrid = ({ category }: Props) => {
 
 export default MasonryGrid;
 
-const ImageCard = ({ title, height, source,index }: imgcard) => {
+const ImageCard = ({ title, height, source,index , param }: imgcard) => {
   return (
+    <Pressable onPress={()=>{
+      router.push({pathname:'recipepage' , params:{
+        id: index
+      }} )
+    }}>
     <Animated.View 
     entering={
         FadeInDown.duration(200*(index+1)).delay(1000)
@@ -92,7 +101,7 @@ const ImageCard = ({ title, height, source,index }: imgcard) => {
         {
           height: height,
           width: "100%",
-          backgroundColor: randcol(),
+          backgroundColor: 'lightgray',
           borderRadius: 15,
           position: "relative",
           justifyContent: "center",
@@ -102,7 +111,7 @@ const ImageCard = ({ title, height, source,index }: imgcard) => {
       ]}
     >
       <Image
-        source={source}
+        source={{uri:source}}
         transition={10}
         style={{ 
             width: "100%", 
@@ -113,7 +122,7 @@ const ImageCard = ({ title, height, source,index }: imgcard) => {
       <View
         style={{
           position: "absolute",
-          backgroundColor: "rgba(40,40,40,.3)",
+          backgroundColor: "rgba(40,40,40,.6)",
           bottom: -50,
           width: "100%",
           height: 120,
@@ -141,6 +150,6 @@ const ImageCard = ({ title, height, source,index }: imgcard) => {
           <Text style={{ color: "#fff", fontSize: 15 }}>4.5</Text>
         </View>
       </View>
-    </Animated.View>
+    </Animated.View></Pressable>
   );
 };

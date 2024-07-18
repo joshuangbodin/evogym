@@ -15,7 +15,7 @@ import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Storage from "@/appStorage/Storage";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { white, black, black1, white1, teen, avatars, getImgByName } from "@/data/avatars";
+import {  avatars, getImgByName } from "@/data/avatars";
 import { FlatList } from "react-native";
 const color = 'black';
 
@@ -123,7 +123,7 @@ const Login = () => {
       </View>
       <Pressable
         onPress={() => {
-          router.push("home");
+          router.back();
         }}
       >
         <Feather name="chevrons-left" size={25} color={color} />
@@ -155,6 +155,7 @@ const Login = () => {
             style={[style.input, { width: "50%" }]}
             value={age}
             onChangeText={setAge}
+            keyboardType="numeric"
             placeholder="Age"
           ></TextInput>
         </View>
@@ -163,10 +164,12 @@ const Login = () => {
           value={weight}
           onChangeText={setWeight}
           placeholder="Weight"
+          keyboardType="numeric"
         ></TextInput>
         <TextInput
           style={style.input}
           value={height}
+          keyboardType="numeric"
           onChangeText={setHeight}
           placeholder="Height"
         ></TextInput>

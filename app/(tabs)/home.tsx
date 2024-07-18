@@ -62,11 +62,14 @@ const home = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.top}>
           <View style={style.profile}>
-          <Image  style={style.profileimg} source={getImgByName(avatar)}></Image>
+            <Pressable style={{flexDirection:'row' , gap:10}}  onPress={()=>{router.push('profile')}}>
+            <Image  style={style.profileimg} source={getImgByName(avatar)}></Image>
           <View>
             <Text style={style.greeting}>Welcome Back</Text>
             <Text style={style.motto}>{name1}!<FontAwesome size={15} color={'red'} style={{fontWeight:'bold' , paddingLeft:5}} name='hand-peace-o'/></Text>
-          </View></View>
+          </View>
+            </Pressable>
+          </View>
           <Pressable onPress={()=> router.push('setting')} style={style.settings}>
             <Ionicons name="settings-outline" size={25} />
           </Pressable>
@@ -128,9 +131,9 @@ const home = () => {
 };
 
 //styles
-export const style = StyleSheet.create({
+ const style = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     width: "100%",
     height: "100%",
     flex: 1,

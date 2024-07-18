@@ -8,7 +8,8 @@ import { View, Text,ScrollView } from "react-native";
 //color providers
 import { randcol } from "@/constants/colors";
 import Animated from "react-native-reanimated";
-import { style } from "@/app/(tabs)/home";
+import { style } from "./style";
+
 
 
 
