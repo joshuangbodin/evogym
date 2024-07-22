@@ -28,7 +28,7 @@ export const advice = (bmi: number) => {
   else if (bmi < 29.9)
     return {
       advice:
-        "you are overweight; maintain your current physical activity levels and calorie intake",
+        "you are overweight; Increase your current physical activity levels and  reduce calorie intake",
       status: "orange",
     };
   else
